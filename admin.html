@@ -169,9 +169,9 @@ textarea{resize:vertical;min-height:56px}
     <div class="ls2">Team access only</div>
     <div class="pw-wrap">
       <input type="password" class="li" id="pw" placeholder="Enter password">
-      <button class="pw-eye" id="eye-btn" type="button">&#128065;</button>
+      <button class="pw-eye" id="eye-btn" type="button" onclick="togglePw()">&#128065;</button>
     </div>
-    <button class="lbtn" id="login-btn">Login &rarr;</button>
+    <button class="lbtn" id="login-btn" onclick="doLogin()">Login &rarr;</button>
     <div class="le" id="lerr">Incorrect password. Please try again.</div>
   </div>
 </div>
@@ -407,27 +407,26 @@ textarea{resize:vertical;min-height:56px}
 
 <script>
 // ===== LOGIN =====
-var PW = (function(){ return ['I','c','h','a','l','@','7','8','6'].join(''); })();
-
-document.getElementById('login-btn').addEventListener('click', doLogin);
-document.getElementById('pw').addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
-document.getElementById('eye-btn').addEventListener('click', function(){
-  var p = document.getElementById('pw');
-  p.type = p.type === 'password' ? 'text' : 'password';
-  this.innerHTML = p.type === 'password' ? '&#128065;' : '&#128584;';
-});
-
 function doLogin(){
   var v = document.getElementById('pw').value;
-  if(v === PW){
+  var p = 'Ichal' + '@' + '786';
+  if(v === p){
     document.getElementById('ls').style.display = 'none';
     initTool();
   } else {
     document.getElementById('lerr').style.display = 'block';
     document.getElementById('pw').value = '';
-    document.getElementById('pw').focus();
   }
 }
+function togglePw(){
+  var p = document.getElementById('pw');
+  p.type = p.type === 'password' ? 'text' : 'password';
+}
+window.onload = function(){
+  document.getElementById('login-btn').onclick = doLogin;
+  document.getElementById('pw').onkeyup = function(e){ if(e.keyCode===13) doLogin(); };
+  document.getElementById('eye-btn').onclick = togglePw;
+};
 
 // ===== GLOBALS =====
 var tripType = 'roundtrip';
